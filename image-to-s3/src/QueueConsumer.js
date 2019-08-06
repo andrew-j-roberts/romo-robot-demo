@@ -1,12 +1,12 @@
 /**
- * ImageConsumer
+ * QueueConsumer
  * Message consumer that persists image capture events in S3
  * @author Andrew Roberts
  */
 
 import * as S3Client from "./S3Client";
 
-function ImageConsumer(solaceModule, queueName) {
+function QueueConsumer(solaceModule, queueName) {
   let solace = solaceModule;
   let consumer = {};
   consumer.session = null;
@@ -148,7 +148,7 @@ function ImageConsumer(solaceModule, queueName) {
           // Define message received event listener
           consumer.messageConsumer.on(
             solace.MessageConsumerEventName.MESSAGE,
-            async function(message) {
+            async function receivedMessage(message) {
               consumer.log(`Received image.`);
               let file_jpeg = Buffer.from(message.getBinaryAttachment(), "binary"); // not base64, not utf-8... 
               try {
@@ -230,4 +230,4 @@ function ImageConsumer(solaceModule, queueName) {
   return consumer;
 }
 
-export default ImageConsumer;
+export default QueueConsumer;

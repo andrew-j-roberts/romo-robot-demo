@@ -9,7 +9,7 @@ const s3 = new S3({
 export function uploadFile(file) {
   // generate unique uuid for object
   const uuid = uuidv1();
-  const objKey = `${uuid}.jpg`;
+  const objKey = `${process.env.S3_KEY_PREFIX}-${uuid}.jpg`;
 
   const params = {
     Body: file, 
